@@ -4,6 +4,8 @@ Send Pdu sms (SILENT FLASH or NORMAL)
 Simple little app to test your modem or phone to see if it can send SILENT SMS etc.
 
 Number has to be in international format.
+(important)
+Press pdu mode button to put modem in pdu mode if you dont do this the app wont send your sms.
 
 Code works on my phone and modem and havent tested any other modems, if it works on yours please email the model and make so I can make a list for other people.
 
