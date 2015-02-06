@@ -6,3 +6,10 @@ Simple little app to test your modem or phone to see if it can send SILENT SMS e
 First try a normal sms to see if it sends and then a flash, if your target phone gets them your modem can send SILENT sms.
 
 If one port doesnt work try another etc.
+
+Coded this kali linux but should work fine on ubuntu.
+Make sure you have wxPython installed.
+
+You might have to chmod 775 ./smsfuzzer.py and the other file if they dont run.
+
+To start simple go to the folder with files are and type ./smsfuzzer.py
