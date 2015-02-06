@@ -17,6 +17,6 @@ Make sure you have wxPython installed.
 
 You might have to chmod 775 ./smsfuzzer.py and the other file if they dont run.
 
-To start simple go to the folder with files are and type ./smsfuzzer.py
+To start go to the folder where files are and type ./smsfuzzer.py
 
 Enjoy:)
