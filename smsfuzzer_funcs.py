@@ -152,6 +152,12 @@ def gsm_encode8bit(SMS):
 			res += chr(27) + chr(idx)
 	return binascii.b2a_hex(res.encode('utf-8'))
 	    #return res.encode('hex')
+	    
+###############################################################################
+#	STRING TO HEX
+#############################################################################
+def stringToHex(str2hex):
+	return str2hex.encode("hex")	    
 ########################################################################
 #			CREATE PDU STRING
 # PDU_STRING = createPduString("12345","this is an sms","04"):
@@ -194,3 +200,33 @@ def createPduString(phone_num,sms_text,message_type,del_report_status):
 		PDU_STRING = "00"+DEL_REPORT+"00"+NUMBER_LEN_HEX+"91"+NUMBER+"00"+SMS_TYPE+MSG_LEN +decodedstr1
 
 	return PDU_STRING
+
+########################################################################
+#			CREATE WAP PUSH PDU STRING
+# PDU_STRING = createWapPduString(start_date,end_date,header,target_num,msg,wap_type):
+########################################################################
+
+def createWapPduString(start_date,end_date,header,target_num,msg,wap_type):
+	NUMBER = target_num	
+	NUMBER_LEN = len(target_num)#len of num in decimal
+	NUMBER_LEN_HEX = str(hex(NUMBER_LEN)).lstrip('0x')#GET LEN OF PHONE NUMBER IN HEX
+
+	if NUMBER_LEN <= 15:
+		NUMBER_LEN_HEX = "0"+NUMBER_LEN_HEX
+	
+	#If number is odd add an F pdu needs to be even number
+	if NUMBER_LEN % 2 != 0:
+		NUMBER += "F"
+		#print("DEBUG", NUMBER)
+
+	NUMBER = swapNumber(NUMBER)
+
+
+	smslen = len(msg)+ 69
+	MSG_LEN_HEX = str(hex(smslen)).lstrip('0x')#get sms data length in hex + the 69 (45 hex)
+
+
+	WAP_PDU_STRING = "004100{0}91{1}0004{2}0B05040B84C0020003F001010B060403AE81EA02056A0045C6{3}03{4}000AC306{5}10C306{6}0103{7}000101".format(
+			NUMBER_LEN_HEX,NUMBER, MSG_LEN_HEX, wap_type, stringToHex(header),start_date,end_date, stringToHex(msg))
+
+	return WAP_PDU_STRING
