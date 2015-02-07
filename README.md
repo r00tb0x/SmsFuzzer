@@ -38,3 +38,11 @@ Use the wap_push-py.py file to send wap push sms.
 7. Press send button.
 
 You probably have to chmod 775 wap_push_py.py to get this file to run.
+
+Users phone has to have allow wap push messages active from them to get the message.
+
+What it looks like on a phone
+
+https://www.dropbox.com/s/uhrebenxgh3hbj9/wap1.png?dl=0
+
+https://www.dropbox.com/s/l8kh8u5w86roa94/wap2.png?dl=0
