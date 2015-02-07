@@ -22,3 +22,19 @@ You might have to chmod 775 ./smsfuzzer.py and the other file if they dont run.
 To start go to the folder where files are and type ./smsfuzzer.py
 
 Enjoy:)
+
+#WAP PUSH SMS
+
+Use the wap_push-py.py file to send wap push sms.
+
+#HOW TO USE
+
+1. Select serial port
+2. Type in start date and end date in the format in the text box. (Important if the end date isnt greater than the current date the user will not get the sms, its another form of silent sms if the date < current date).
+3. Enter header example www.yourheader.com (Important: header length has to be 18 digits len and no greater, if your header isnt 18 digits in length use spaces to make it 18.
+4. Enter target number in international format without + sign
+5. Enter sms to be sent (Important: sms can not be greater than 70 characters)
+6. make sure modem/phone is in pdu mode
+7. Press send button.
+
+You probably have to chmod 775 wap_push_py.py to get this file to run.
