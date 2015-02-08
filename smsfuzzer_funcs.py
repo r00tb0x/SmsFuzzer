@@ -157,16 +157,24 @@ def gsm_encode8bit(SMS):
 #	STRING TO HEX
 #############################################################################
 def stringToHex(str2hex):
-	return str2hex.encode("hex")	    
+	return str2hex.encode("hex")
+###############################################################################
+#	STRING TO HEX 18 bit
+#############################################################################
+def stringToHex18bit(str2hex):
+	hexbuffer = ""
+	for c in str2hex:
+		hexbuffer += '00'+c.encode("hex")
+	return hexbuffer	
 ########################################################################
 #			CREATE PDU STRING
-# PDU_STRING = createPduString("12345","this is an sms","04"):
+# PDU_STRING = createPduString("12345","this is an sms","08",True):
 ########################################################################
 
 def createPduString(phone_num,sms_text,message_type,del_report_status):
 	NUMBER_LEN = len(phone_num)
 	NUMBER = phone_num
-	SMS_TYPE = message_type
+	SMS_TYPE =message_type
 
 	#If number is odd add an F pdu needs to be even number
 	if NUMBER_LEN % 2 != 0:
@@ -180,7 +188,7 @@ def createPduString(phone_num,sms_text,message_type,del_report_status):
 		NUMBER_LEN_HEX = "0"+NUMBER_LEN_HEX
 	
 
-	smslen = len(sms_text)
+	smslen = len(sms_text)*2
 	MSG_LEN = str(hex(smslen)).lstrip('0x')#get sms data length in hex
 	SMS = sms_text
 	NUM = phone_num
@@ -190,14 +198,12 @@ def createPduString(phone_num,sms_text,message_type,del_report_status):
 	else:
 		DEL_REPORT = "01"
 
-	if smslen <= 15:
-		decodedstr1 =  gsm_encode(sms_text)
-		PDU_STRING = "00"+DEL_REPORT+"00"+NUMBER_LEN_HEX+"91"+NUMBER+"00"+SMS_TYPE+"0"+MSG_LEN +decodedstr1
-		#print("In smslen <= 15")#if sms length is less than 15 we need to add a 0 to hex value B becomes 0B
+	decodedstr1 = stringToHex18bit(sms_text)#gsm_encode(sms_text)
 
-	if smslen > 15:#if sms len more than 15 add no 0.
-		decodedstr1 =  gsm_encode(self.editpdu_PDU_SMS.GetValue())
-		PDU_STRING = "00"+DEL_REPORT+"00"+NUMBER_LEN_HEX+"91"+NUMBER+"00"+SMS_TYPE+MSG_LEN +decodedstr1
+	if smslen <= 15:
+		PDU_STRING = "00{0}00{1}91{2}00{3}0{4}{5}".format(DEL_REPORT,NUMBER_LEN_HEX,NUMBER,SMS_TYPE,MSG_LEN,decodedstr1)
+	if smslen > 15:
+		PDU_STRING = "00{0}00{1}91{2}00{3}{4}{5}".format(DEL_REPORT,NUMBER_LEN_HEX,NUMBER,SMS_TYPE,MSG_LEN,decodedstr1)
 
 	return PDU_STRING
 
