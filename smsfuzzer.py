@@ -82,7 +82,7 @@ class ExampleFrame(wx.Frame):
 			mySerialPort.flushInput() #flush input buffer, discarding all its contents
         		mySerialPort.flushOutput()#flush output buffer, aborting current output
 			mySerialPort.write("AT+CMGS=17"+"\x0D")
-                        PDU_STRING = createPduString(self.edit_target_number.GetValue(),self.edit_target_msg .GetValue(),SMS_TYPE,DEL_REPORT_STATUS)
+                        PDU_STRING = createPduString(self.edit_target_number.GetValue(),self.edit_target_msg.GetValue(),SMS_TYPE,DEL_REPORT_STATUS)
 			time.sleep(0.3)
 			mySerialPort.write(PDU_STRING+"\x1A")
 			time.sleep(0.3)
