@@ -36,7 +36,7 @@ FLASH1 = 	"10"#4 bit encoding
 FLASH2 = 	"14"#8 bit encoding
 FLASH3 = 	"18"
 SILENT = 	"C0"
-NORMAL = 	"04"
+NORMAL = 	"08"
 
 
 class ExampleFrame(wx.Frame):
@@ -70,10 +70,12 @@ class ExampleFrame(wx.Frame):
 		smstype = self.combo_sms_type.GetValue()
 		if smstype == "SILENT":
 			SMS_TYPE = SILENT
+
 		if smstype == "NORMAL":
 			SMS_TYPE = NORMAL
+
 		if smstype == "FLASH":
-			SMS_TYPE = FLASH2
+			SMS_TYPE = FLASH3
 
 		if mySerialPort.open() == False:
 			mySerialPort.open()
@@ -82,7 +84,11 @@ class ExampleFrame(wx.Frame):
 			mySerialPort.flushInput() #flush input buffer, discarding all its contents
         		mySerialPort.flushOutput()#flush output buffer, aborting current output
 			mySerialPort.write("AT+CMGS=17"+"\x0D")
-                        PDU_STRING = createPduString(self.edit_target_number.GetValue(),self.edit_target_msg.GetValue(),SMS_TYPE,DEL_REPORT_STATUS)
+			
+                        PDU_STRING = createPduString(self.edit_target_number.GetValue(),
+						     self.edit_target_msg.GetValue(),
+						     SMS_TYPE,DEL_REPORT_STATUS)
+			
 			time.sleep(0.3)
 			mySerialPort.write(PDU_STRING+"\x1A")
 			time.sleep(0.3)
